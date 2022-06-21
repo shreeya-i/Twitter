@@ -25,24 +25,11 @@
     self.tweetTableView.delegate = self;
     self.tweetTableView.rowHeight = 300;
     
-//    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-//    [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
-//    [self.tweetTableView insertSubview:refreshControl atIndex:0];
+    [self fetchTweets];
     
-    // Get timeline
-    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
-        if (tweets) {
-            NSLog(@"😎😎😎 Successfully loaded home timeline");
-//            for (Tweet *tweet in tweets) {
-//                NSString *text = tweet.text;
-//                NSLog(@"%@", text);
-//            }
-            self.arrayOfTweets = [NSMutableArray arrayWithArray:tweets];
-            [self.tweetTableView reloadData];
-        } else {
-            NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
-        }
-    }];
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(fetchTweets:) forControlEvents:UIControlEventValueChanged];
+    [self.tweetTableView insertSubview:refreshControl atIndex:0];
 
 }
 
@@ -66,30 +53,23 @@
     return self.arrayOfTweets.count;
 }
 
-//- (void)beginRefresh:(UIRefreshControl *)refreshControl {
-//
-//        // Create NSURL and NSURLRequest
-//
-//        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-//                                                              delegate:nil
-//                                                         delegateQueue:[NSOperationQueue mainQueue]];
-//        session.configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-//
-//        NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-//                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//
-//           // ... Use the new data to update the data source ...
-//
-//           // Reload the tableView now that there is new data
-//            [self.tweetTableView reloadData];
-//
-//           // Tell the refreshControl to stop spinning
-//            [refreshControl endRefreshing];
-//
-//        }];
-//
-//        [task resume];
-//}
+- (void)fetchTweets {
+    // Get timeline
+    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+        if (tweets) {
+            NSLog(@"😎😎😎 Successfully loaded home timeline");
+//            for (Tweet *tweet in tweets) {
+//                NSString *text = tweet.text;
+//                NSLog(@"%@", text);
+//            }
+            self.arrayOfTweets = [NSMutableArray arrayWithArray:tweets];
+            [self.tweetTableView reloadData];
+        } else {
+            NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
+        }
+        [self.refreshControl endRefreshing];
+    }];
+}
 
 
 - (void)didReceiveMemoryWarning {
