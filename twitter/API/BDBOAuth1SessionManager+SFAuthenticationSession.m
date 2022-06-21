@@ -34,7 +34,7 @@
                              method:(NSString *)accessTokenMethod
                          completion:(void(^)(BOOL success, NSError * error))completion {
     // This is required, especially if you try to login with consumer key/secret
-    // thas has the wrong permission. You must flush any existing persisted
+    // that has the wrong permission. You must flush any existing persisted
     // access tokens.
     [self deauthorize];
     

@@ -8,6 +8,7 @@
 
 #import "TimelineViewController.h"
 #import "APIManager.h"
+#import "AppDelegate.h"
 
 @interface TimelineViewController ()
 
