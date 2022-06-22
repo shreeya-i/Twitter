@@ -28,9 +28,9 @@
     
     [self fetchTweets];
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(fetchTweets) forControlEvents:UIControlEventValueChanged];
-    [self.tweetTableView insertSubview:refreshControl atIndex:0];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchTweets) forControlEvents:UIControlEventValueChanged];
+    [self.tweetTableView insertSubview:self.refreshControl atIndex:0];
 
 }
 

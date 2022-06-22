@@ -11,11 +11,9 @@
 @implementation TweetCell
 
 - (void)setTweet:(Tweet *)tweet {
-    
     _tweet = tweet;
     [self refreshData];
-    
-    }
+}
 
 -(void)refreshData {
     self.nameLabel.text = self.tweet.user.name;
@@ -28,9 +26,22 @@
     NSURL *url = [NSURL URLWithString:URLString];
     //NSData *urlData = [NSData dataWithContentsOfURL:url];
     [self.profilePic setImageWithURL: url];
-//    if (self.tweet.favorited == YES) {
-//        [self.favoriteButton setImage:[UIImage imageNamed:@"favor-icon-red"]];
-//    }
+    
+    UIImage *favorImage = [UIImage imageNamed:@"favor-icon"];
+    UIImage *favorImageSelected = [UIImage imageNamed:@"favor-icon-red"];
+    if (self.tweet.favorited) {
+        [self.favoriteButton setImage:favorImageSelected forState:UIControlStateNormal];
+    } else {
+        [self.favoriteButton setImage:favorImage forState:UIControlStateNormal];
+    }
+    
+    UIImage *retweetImage = [UIImage imageNamed:@"retweet-icon"];
+    UIImage *retweetImageSelected = [UIImage imageNamed:@"retweet-icon-green"];
+    if (self.tweet.retweeted) {
+        [self.retweetButton setImage:retweetImageSelected forState:UIControlStateNormal];
+    } else {
+        [self.retweetButton setImage:retweetImage forState:UIControlStateNormal];
+    }
 }
 
 - (IBAction)didTapFavorite:(id)sender {
