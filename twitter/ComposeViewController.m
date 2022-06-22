@@ -21,7 +21,9 @@
 
 - (IBAction)tweetPressed:(id)sender {
     
-    [[APIManager shared]postStatusWithText:@"This is my also tweet 😀" completion:^(Tweet *tweet, NSError *error) {
+    NSString *inputTweet = self.composeTextView.text;
+    
+    [[APIManager shared]postStatusWithText:inputTweet completion:^(Tweet *tweet, NSError *error) {
         if(error){
             NSLog(@"Error composing Tweet: %@", error.localizedDescription);
         }
@@ -36,7 +38,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.composeTextView.delegate = self;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    
+    int characterLimit = 140;
+    NSString *newText = [self.composeTextView.text stringByReplacingCharactersInRange:range withString:text];
+    return newText.length < characterLimit;
 }
 
 /*

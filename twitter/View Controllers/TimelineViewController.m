@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "TweetCell.h"
 #import "ComposeViewController.h"
+#import "DetailsViewController.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -54,6 +55,11 @@
     return self.arrayOfTweets.count;
 }
 
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSInteger index = [indexPath row];
+//
+//}
+
 - (void)fetchTweets {
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
@@ -80,9 +86,22 @@
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UINavigationController *navigationController = [segue destinationViewController];
-        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-        composeController.delegate = self;
+    
+    if([segue.identifier isEqualToString:@"composeSegue"]){
+        UINavigationController *navigationController = [segue destinationViewController];
+            ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+            composeController.delegate = self;
+    }
+    else if([segue.identifier isEqualToString:@"detailSegue"]){
+//        UINavigationController *navigationController = [segue destinationViewController];
+//        
+        NSIndexPath *myIndexPath = [self.tweetTableView indexPathForCell:sender];
+        Tweet *dataToPass = self.arrayOfTweets[myIndexPath.row];
+        DetailsViewController *detailVC = [segue destinationViewController];
+        detailVC.detailTweet = dataToPass;
+    }
+    
+    
 }
 
 

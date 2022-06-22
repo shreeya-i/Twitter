@@ -20,12 +20,20 @@
     self.usernameLabel.text = self.tweet.user.screenName;
     self.dateLabel.text = self.tweet.createdAtString;
     self.tweetText.text = self.tweet.text;
-    NSString *URLString = self.tweet.user.profilePicture;
     [self.favoriteButton setTitle: [NSString stringWithFormat:@"%i", self.tweet.favoriteCount]  forState:UIControlStateNormal];
     [self.retweetButton setTitle: [NSString stringWithFormat:@"%i", self.tweet.retweetCount]  forState:UIControlStateNormal];
+    NSString *URLString = self.tweet.user.profilePicture;
     NSURL *url = [NSURL URLWithString:URLString];
     //NSData *urlData = [NSData dataWithContentsOfURL:url];
     [self.profilePic setImageWithURL: url];
+    
+    
+    //Date Stuff:
+    
+    
+    
+    
+    self.dateLabel.text = self.tweet.createdAtString;
     
     UIImage *favorImage = [UIImage imageNamed:@"favor-icon"];
     UIImage *favorImageSelected = [UIImage imageNamed:@"favor-icon-red"];
