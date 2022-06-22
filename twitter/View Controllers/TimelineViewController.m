@@ -13,6 +13,7 @@
 #import "TweetCell.h"
 #import "ComposeViewController.h"
 #import "DetailsViewController.h"
+#import "ProfileViewController.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -35,6 +36,10 @@
 
 }
 
+- (void)tweetCell:(TweetCell *)tweetCell didTap:(User *)user{
+    [self performSegueWithIdentifier:@"profileSegue" sender:user];
+}
+
 - (IBAction)didTapLogout:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -47,6 +52,7 @@
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
     
     cell.tweet = self.arrayOfTweets[indexPath.row];
+    cell.delegate = self;
     
     return cell;
 }
@@ -99,6 +105,11 @@
         Tweet *dataToPass = self.arrayOfTweets[myIndexPath.row];
         DetailsViewController *detailVC = [segue destinationViewController];
         detailVC.detailTweet = dataToPass;
+    }
+    else if ([segue.identifier isEqualToString:@"profileSegue"]){
+        User *selectedUser = sender;
+        ProfileViewController *profileView = [segue destinationViewController];
+        profileView.user = selectedUser;
     }
     
     

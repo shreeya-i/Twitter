@@ -17,6 +17,12 @@
         self.name = dictionary[@"name"];
         self.screenName = dictionary[@"screen_name"];
         self.profilePicture = dictionary[@"profile_image_url_https"];
+        NSString* followersString = [NSString stringWithFormat:@"%@", dictionary[@"followers_count"]];
+        self.followers = followersString;
+        NSString* friendsString = [NSString stringWithFormat:@"%@", dictionary[@"friends_count"]];
+        self.friends = friendsString;
+        self.header = dictionary[@"profile_banner_url"];
+        
     
     // Initialize any other properties
         

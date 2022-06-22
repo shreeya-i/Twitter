@@ -15,6 +15,19 @@
     [self refreshData];
 }
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    UITapGestureRecognizer *profileTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
+    [self.profilePic addGestureRecognizer:profileTapGestureRecognizer];
+    [self.profilePic setUserInteractionEnabled:YES];
+    
+}
+
+- (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
+    [self.delegate tweetCell:self didTap:self.tweet.user];
+}
+
 -(void)refreshData {
     self.nameLabel.text = self.tweet.user.name;
     self.usernameLabel.text = self.tweet.user.screenName;
@@ -118,12 +131,6 @@
     }
 }
 
-
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

@@ -8,6 +8,7 @@
 
 #import "DetailsViewController.h"
 #import "UIKit+AFNetworking.h"
+#import "APIManager.h"
 
 @interface DetailsViewController ()
 
@@ -18,6 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setUpViews];
+
+}
+
+- (void) setUpViews {
     self.nameLabel.text = self.detailTweet.user.name;
     self.usernameLabel.text = self.detailTweet.user.screenName;
     self.tweetText.text = self.detailTweet.text;
@@ -27,9 +33,84 @@
     
     [self.profilePicture setImageWithURL: url];
     
+    UIImage *favorImage = [UIImage imageNamed:@"favor-icon"];
+    UIImage *favorImageSelected = [UIImage imageNamed:@"favor-icon-red"];
     
+    if (self.detailTweet.favorited){
+        [self.favoriteButton setImage:favorImageSelected forState:UIControlStateNormal];
+    }
+    else{
+        [self.favoriteButton setImage:favorImage forState:UIControlStateNormal];
+    }
     
-    // Do any additional setup after loading the view.
+    UIImage *retweetImage = [UIImage imageNamed:@"retweet-icon"];
+    UIImage *retweetImageSelected = [UIImage imageNamed:@"retweet-icon-green"];
+    
+    if (self.detailTweet.retweeted) {
+        [self.retweetButton setImage:retweetImageSelected forState:UIControlStateNormal];
+    } else {
+        [self.retweetButton setImage:retweetImage forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)didTapRetweet:(id)sender {
+    self.detailTweet.retweeted = !self.detailTweet.retweeted;
+    
+    if (self.detailTweet.retweeted){
+        self.detailTweet.retweetCount += 1;
+        
+        [[APIManager shared] retweet:self.detailTweet completion:^(Tweet *tweet, NSError *error) {
+             if(error){
+                  NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
+             }
+             else{
+                 NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
+                 [self setUpViews];
+             }
+        }];
+    }
+    else{
+        self.detailTweet.retweetCount -= 1;
+        
+        [[APIManager shared] unretweet:self.detailTweet completion:^(Tweet *tweet, NSError *error) {
+             if(error){
+                  NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
+             }
+             else{
+                 NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
+                 [self setUpViews];
+             }
+         }];
+    }
+}
+
+- (IBAction)didTapLike:(id)sender {
+    self.detailTweet.favorited = !self.detailTweet.favorited;
+    
+    if (self.detailTweet.favorited){
+        self.detailTweet.favoriteCount += 1;
+        [[APIManager shared] favorite:self.detailTweet completion:^(Tweet *tweet, NSError *error) {
+             if(error){
+                  NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+             }
+             else{
+                 NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+                 [self setUpViews];
+             }
+         }];
+    }
+    else{
+        self.detailTweet.favoriteCount -= 1;
+        [[APIManager shared] unfavorite:self.detailTweet completion:^(Tweet *tweet, NSError *error) {
+             if(error){
+                  NSLog(@"Error unfavoriting tweet: %@", error.localizedDescription);
+             }
+             else{
+                 NSLog(@"Successfully unfavorited the following Tweet: %@", tweet.text);
+                 [self setUpViews];
+             }
+         }];
+    }
 }
 
 
