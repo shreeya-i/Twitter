@@ -33,24 +33,6 @@
     [self.delegate tweetCell:self didTap:self.tweet.user];
 }
 
--(UIImage *)makeRoundedImage:(UIImage *) image
-                      radius: (float) radius;
-{
-  CALayer *imageLayer = [CALayer layer];
-  imageLayer.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-  imageLayer.contents = (id) image.CGImage;
-
-  imageLayer.masksToBounds = YES;
-  imageLayer.cornerRadius = radius;
-
-  UIGraphicsBeginImageContext(image.size);
-  [imageLayer renderInContext:UIGraphicsGetCurrentContext()];
-  UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-
-  return roundedImage;
-}
-
 -(void)refreshData {
     self.nameLabel.text = self.tweet.user.name;
     self.usernameLabel.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
@@ -67,8 +49,6 @@
     
     
     //Date Stuff:
-    
-    
     
     
     self.dateLabel.text = self.tweet.createdAtString;

@@ -13,6 +13,18 @@
 - (void)setTweet:(Tweet *)tweet {
     _tweet = tweet;
     self.tweetText.text = tweet.text;
+    self.nameLabel.text = tweet.user.name;
+    self.usernameLabel.text = tweet.user.screenName;
+    self.dateLabel.text = tweet.createdAtString;
+    
+    self.profilePicture.layer.cornerRadius  = self.profilePicture.frame.size.width/2;
+    self.profilePicture.clipsToBounds = YES;
+    NSString *URLString = self.tweet.user.profilePicture;
+    NSURL *url = [NSURL URLWithString:URLString];
+    NSData *urlData = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [UIImage imageWithData:urlData];
+    self.profilePicture.image = image;
+    
 }
 
 - (void)awakeFromNib {

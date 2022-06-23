@@ -76,20 +76,20 @@
 
 - (void)fetchTweets {
     // Get timeline
-    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
-        if (tweets) {
-            NSLog(@"😎😎😎 Successfully loaded home timeline");
-//            for (Tweet *tweet in tweets) {
-//                NSString *text = tweet.text;
-//                NSLog(@"%@", text);
-//            }
-            self.arrayOfTweets = [NSMutableArray arrayWithArray:tweets];
-            [self.tweetTableView reloadData];
-        } else {
-            NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
-        }
-        [self.refreshControl endRefreshing];
-    }];
+       [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+           if (tweets) {
+               NSLog(@"😎😎😎 Successfully loaded home timeline");
+   //            for (Tweet *tweet in tweets) {
+   //                NSString *text = tweet.text;
+   //                NSLog(@"%@", text);
+   //            }
+               self.arrayOfTweets = [NSMutableArray arrayWithArray:tweets];
+               [self.tweetTableView reloadData];
+           } else {
+               NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
+           }
+           [self.refreshControl endRefreshing];
+       }];
 }
 
 

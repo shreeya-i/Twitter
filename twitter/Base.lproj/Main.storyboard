@@ -241,8 +241,8 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5a4-uz-CAP">
                                 <rect key="frame" x="93" y="513" width="45" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="favor-icon"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="favor-icon"/>
                                 <connections>
                                     <action selector="didTapLike:" destination="rni-TP-GkR" eventType="touchUpInside" id="BZd-HI-bmU"/>
                                 </connections>
@@ -353,7 +353,7 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProfileTweetCell" rowHeight="178" id="U1p-ws-WIO" customClass="ProfileTweetCell">
                                         <rect key="frame" x="0.0" y="441.5" width="414" height="178"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="U1p-ws-WIO" id="71g-fz-KTQ">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="U1p-ws-WIO" id="71g-fz-KTQ" customClass="ProfileTweetCell">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="178"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -392,7 +392,11 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="dateLabel" destination="aZo-EI-BTg" id="NZc-f5-ZUO"/>
+                                            <outlet property="nameLabel" destination="g9c-on-0YP" id="m9k-Z7-qeO"/>
+                                            <outlet property="profilePicture" destination="jCQ-yg-VkO" id="obw-XX-S2U"/>
                                             <outlet property="tweetText" destination="HfK-V8-ql1" id="aJP-gz-miX"/>
+                                            <outlet property="usernameLabel" destination="xR9-Tx-yH5" id="9yv-Tn-YaE"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -409,14 +413,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="10O-NL-fKl"/>
                     <connections>
-                        <outlet property="contentView" destination="3qQ-lL-dd0" id="Lwu-Ky-yIa"/>
-                        <outlet property="followersLabel" destination="7DE-Qy-K9e" id="IrK-C6-YjY"/>
-                        <outlet property="followingLabel" destination="i1O-Yy-0em" id="LJe-I1-gUV"/>
-                        <outlet property="headerImage" destination="yOR-In-E81" id="SO8-Ln-Y5s"/>
-                        <outlet property="nameLabel" destination="0Se-dE-Tdt" id="7rr-OO-FMC"/>
-                        <outlet property="profilePicture" destination="QAs-8h-hdA" id="kzB-UA-yBg"/>
+                        <outlet property="followersLabel" destination="7DE-Qy-K9e" id="bzg-rn-kci"/>
+                        <outlet property="followingLabel" destination="i1O-Yy-0em" id="bPb-3D-gz5"/>
+                        <outlet property="headerImage" destination="yOR-In-E81" id="5ck-S6-bGT"/>
+                        <outlet property="nameLabel" destination="0Se-dE-Tdt" id="ElI-wV-30r"/>
+                        <outlet property="profilePicture" destination="QAs-8h-hdA" id="kum-Ec-ahB"/>
                         <outlet property="profileTableView" destination="7Hf-rL-fVq" id="x0L-1l-Bb3"/>
-                        <outlet property="usernameLabel" destination="N4i-aV-tmk" id="avT-2p-F5l"/>
+                        <outlet property="usernameLabel" destination="N4i-aV-tmk" id="4Mx-QQ-PBZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gLy-Gj-U6g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

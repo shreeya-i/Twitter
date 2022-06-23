@@ -5,7 +5,6 @@
 //  Created by Shreeya Indap on 6/22/22.
 //  Copyright © 2022 Emerson Malca. All rights reserved.
 //
-
 #import "ProfileViewController.h"
 #import "UIKit+AFNetworking.h"
 #import "APIManager.h"
@@ -24,9 +23,7 @@
     self.profileTableView.delegate = self;
     //self.profileTableView.rowHeight = UITableViewAutomaticDimension;
     self.profileTableView.rowHeight = 250;
-    [self fetchTweets];
-    
-    self.profileScrollView.contentSize = self.contentView.frame.size;
+    [self fetchTweetss];
     
     self.nameLabel.text = self.user.name;
     self.usernameLabel.text = [NSString stringWithFormat:@"@%@", self.user.screenName];
@@ -61,21 +58,20 @@
     return self.arrayOfTweets.count;
 }
 
-- (void)fetchTweets {
-    // Get timeline
+- (void)fetchTweetss {
     [[APIManager shared] getUserTimeline:self.user completion:^(NSArray *tweets, NSError *error) {
-        if (tweets) {
-            NSLog(@"😎😎😎 Successfully loaded user tweet timeline");
-            for (Tweet *tweet in tweets) {
-                NSString *text = tweet.text;
-                NSLog(@"%@", text);
+            if (tweets) {
+                NSLog(@"😎😎😎 Successfully loaded user tweet timeline");
+                for (Tweet *tweet in tweets) {
+                    NSString *text = tweet.text;
+                    NSLog(@"%@", text);
+                }
+                self.arrayOfTweets = [NSMutableArray arrayWithArray:tweets];
+                [self.profileTableView reloadData];
+            } else {
+                NSLog(@"😫😫😫 Error getting user tweet timeline: %@", error.localizedDescription);
             }
-            self.arrayOfTweets = [NSMutableArray arrayWithArray:tweets];
-            [self.profileTableView reloadData];
-        } else {
-            NSLog(@"😫😫😫 Error getting user tweet timeline: %@", error.localizedDescription);
-        }
-    }];
+        }];
 }
 
 
