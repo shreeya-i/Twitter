@@ -138,4 +138,33 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     }];
 }
 
+- (void)getUserTimeline:(User *)user completion:(void (^)(NSArray *tweets, NSError *error))completion {
+
+    NSString *urlString = [NSString stringWithFormat:@"1.1/statuses/home_timeline.json?screen_name=%@", user.screenName];
+//    NSDictionary *parameters = @{@"screenName": user.screenName};
+    [self GET:urlString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+           // Success
+           NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries];
+           completion(tweets, nil);
+       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+           // There was a problem
+           completion(nil, error);
+    }];
+}
+
+// GET User Timeline Request
+
+//- (void)getUserTimeline:(void(^)(NSArray *tweets, NSError *error))completion {
+//
+//    [self GET:@"1.1/statuses/home_timeline.json"
+//       parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+//           // Success
+//           NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries];
+//           completion(tweets, nil);
+//       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//           // There was a problem
+//           completion(nil, error);
+//    }];
+//}
+
 @end

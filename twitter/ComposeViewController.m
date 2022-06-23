@@ -10,7 +10,7 @@
 #import "APIManager.h"
 
 
-@interface ComposeViewController ()
+@interface ComposeViewController () <UITextViewDelegate>
 @end
 
 @implementation ComposeViewController
@@ -40,6 +40,20 @@
     [super viewDidLoad];
     
     self.composeTextView.delegate = self;
+    self.composeTextView.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.composeTextView.layer.borderWidth = 1.0;
+    self.composeTextView.layer.cornerRadius = 8;
+    self.composeTextView.text = @"What's happening?";
+    self.composeTextView.textColor = [UIColor lightGrayColor];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@"What's happening?"]) {
+         textView.text = @"";
+         textView.textColor = [UIColor blackColor]; //optional
+    }
+    [textView becomeFirstResponder];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{

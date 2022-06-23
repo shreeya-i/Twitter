@@ -8,8 +8,10 @@
 
 #import "ProfileViewController.h"
 #import "UIKit+AFNetworking.h"
+#import "APIManager.h"
+#import "ProfileTweetCell.h"
 
-@interface ProfileViewController ()
+@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @end
 
@@ -18,22 +20,65 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.profileTableView.dataSource = self;
+    self.profileTableView.delegate = self;
+    //self.profileTableView.rowHeight = UITableViewAutomaticDimension;
+    self.profileTableView.rowHeight = 250;
+    [self fetchTweets];
+    
+    self.profileScrollView.contentSize = self.contentView.frame.size;
+    
     self.nameLabel.text = self.user.name;
-    self.usernameLabel.text = self.user.screenName;
-    self.followersLabel.text = self.user.followers;
-    self.followingLabel.text = self.user.friends;
+    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", self.user.screenName];
+    self.followersLabel.text = [NSString stringWithFormat:@"%@ Followers", self.user.followers];
+    self.followingLabel.text = [NSString stringWithFormat:@"%@ Following", self.user.friends];
 
     NSString *URLString = self.user.profilePicture;
     NSURL *url = [NSURL URLWithString:URLString];
     [self.profilePicture setImageWithURL: url];
+    
+    self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width/2;
+    self.profilePicture.clipsToBounds = YES;
+    self.profilePicture.layer.borderWidth = 3.0f;
+    self.profilePicture.layer.borderColor = [UIColor whiteColor].CGColor;
 
     NSString *URLString2 = self.user.header;
     NSURL *url2 = [NSURL URLWithString:URLString2];
     [self.headerImage setImageWithURL: url2];
     
-    
-    // Do any additional setup after loading the view.
 }
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    ProfileTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileTweetCell" forIndexPath:indexPath];
+    
+    cell.tweet = self.arrayOfTweets[indexPath.row];
+    //cell.delegate = self;
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.arrayOfTweets.count;
+}
+
+- (void)fetchTweets {
+    // Get timeline
+    [[APIManager shared] getUserTimeline:self.user completion:^(NSArray *tweets, NSError *error) {
+        if (tweets) {
+            NSLog(@"😎😎😎 Successfully loaded user tweet timeline");
+            for (Tweet *tweet in tweets) {
+                NSString *text = tweet.text;
+                NSLog(@"%@", text);
+            }
+            self.arrayOfTweets = [NSMutableArray arrayWithArray:tweets];
+            [self.profileTableView reloadData];
+        } else {
+            NSLog(@"😫😫😫 Error getting user tweet timeline: %@", error.localizedDescription);
+        }
+    }];
+}
+
+
 
 /*
 #pragma mark - Navigation

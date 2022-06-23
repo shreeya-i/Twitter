@@ -43,12 +43,29 @@
         // Configure the input format to parse the date string
         formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
         // Convert String to Date
-        NSDate *date = [formatter dateFromString:createdAtOriginalString];
+        NSDate *tweetDate = [formatter dateFromString:createdAtOriginalString];
+        NSDate *curDate = [NSDate date];
+                NSTimeInterval diff = [curDate timeIntervalSinceDate:tweetDate];
+        
+        NSInteger interval = diff;
+        long seconds = interval % 60;
+        long minutes = (interval / 60) % 60;
+        long hours = (interval / 3600);
+        if(hours > 1) {
+                self.createdAtString = [NSString stringWithFormat:@"%ldh", hours];
+            } else if(minutes > 1) {
+                self.createdAtString = [NSString stringWithFormat:@"%ldm", minutes];
+            } else {
+                self.createdAtString = [NSString stringWithFormat:@"%lds", seconds];
+            }
+
+
         // Configure output format
-        formatter.dateStyle = NSDateFormatterShortStyle;
-        formatter.timeStyle = NSDateFormatterNoStyle;
+//        formatter.dateStyle = NSDateFormatterShortStyle;
+//        formatter.timeStyle = NSDateFormatterNoStyle;
         // Convert Date to String
-        self.createdAtString = [formatter stringFromDate:date];
+        
+        //self.createdAtString = [formatter stringFromDate:date];
         
     }
     return self;

@@ -21,12 +21,20 @@
 
 @implementation TimelineViewController
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.tweetTableView reloadData];
+    [self fetchTweets];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.tweetTableView.dataSource = self;
     self.tweetTableView.delegate = self;
-    self.tweetTableView.rowHeight = 300;
+    self.tweetTableView.rowHeight = UITableViewAutomaticDimension;
+    //self.tweetTableView.rowHeight = 250;
     
     [self fetchTweets];
     
@@ -119,7 +127,10 @@
 - (void)didTweet:(nonnull Tweet *)tweet {
     [self.arrayOfTweets addObject: tweet];
     [self.tweetTableView reloadData];
+    [self fetchTweets];
 }
+
+
 
 
 @end

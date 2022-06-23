@@ -22,23 +22,48 @@
     [self.profilePic addGestureRecognizer:profileTapGestureRecognizer];
     [self.profilePic setUserInteractionEnabled:YES];
     
+    self.profilePic.layer.cornerRadius  = self.profilePic.frame.size.width/2;
+    self.profilePic.clipsToBounds = YES;
+//    self.profilePic.layer.borderWidth = 3.0f;
+//    self.profilePic.layer.borderColor = [UIColor blackColor].CGColor;
+    
 }
 
 - (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
     [self.delegate tweetCell:self didTap:self.tweet.user];
 }
 
+-(UIImage *)makeRoundedImage:(UIImage *) image
+                      radius: (float) radius;
+{
+  CALayer *imageLayer = [CALayer layer];
+  imageLayer.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+  imageLayer.contents = (id) image.CGImage;
+
+  imageLayer.masksToBounds = YES;
+  imageLayer.cornerRadius = radius;
+
+  UIGraphicsBeginImageContext(image.size);
+  [imageLayer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+
+  return roundedImage;
+}
+
 -(void)refreshData {
     self.nameLabel.text = self.tweet.user.name;
-    self.usernameLabel.text = self.tweet.user.screenName;
+    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
     self.dateLabel.text = self.tweet.createdAtString;
     self.tweetText.text = self.tweet.text;
     [self.favoriteButton setTitle: [NSString stringWithFormat:@"%i", self.tweet.favoriteCount]  forState:UIControlStateNormal];
     [self.retweetButton setTitle: [NSString stringWithFormat:@"%i", self.tweet.retweetCount]  forState:UIControlStateNormal];
     NSString *URLString = self.tweet.user.profilePicture;
     NSURL *url = [NSURL URLWithString:URLString];
-    //NSData *urlData = [NSData dataWithContentsOfURL:url];
-    [self.profilePic setImageWithURL: url];
+    NSData *urlData = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [UIImage imageWithData:urlData];
+    self.profilePic.image = image;
+    
     
     
     //Date Stuff:

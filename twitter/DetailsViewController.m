@@ -25,8 +25,14 @@
 
 - (void) setUpViews {
     self.nameLabel.text = self.detailTweet.user.name;
-    self.usernameLabel.text = self.detailTweet.user.screenName;
+    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", self.detailTweet.user.screenName];
     self.tweetText.text = self.detailTweet.text;
+    self.dateLabel.text = self.detailTweet.createdAtString;
+    
+    self.profilePicture.layer.cornerRadius  = self.profilePicture.frame.size.width/2;
+    self.profilePicture.clipsToBounds = YES;
+//    self.profilePic.layer.borderWidth = 3.0f;
+//    self.profilePic.layer.borderColor = [UIColor blackColor].CGColor;
     
     NSString *URLString = self.detailTweet.user.profilePicture;
     NSURL *url = [NSURL URLWithString:URLString];
