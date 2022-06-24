@@ -17,7 +17,7 @@ The following **core** features are completed:
 - [x] Be able to like and retweet from their Timeline view
 - [x] Only be able to access content if logged in
 - [x] Each tweet should display user profile picture, username, screen name, tweet text, timestamp, as well as buttons and labels for favorite, reply, and retweet counts.
-    - Reply count is Premium Twitter feature so was not included in TweetCell.
+    - Reply count is Premium Twitter API feature so was not included in TweetCell.
 - [x] Compose and post a tweet from a Compose Tweet view, launched from a Compose button on the Nav bar.
 - [x] See Tweet details in a Details view
 - [x] App should render consistently all views and subviews in recent iPhone models and all orientations
@@ -42,12 +42,14 @@ The following **stretch** features are implemented:
 
 The following **additional** features are implemented:
 
-- Will list here
+- Utilized UIBezierPath in order to "embed" UIImage in ComposeTextView as seen on the Twitter app.
+- Created placeholder text for ComposeTextView that disappears when the user begins typing.
+- Included a user's recent tweets (user_timeline) in a TableView on the Profile page in addition to the recent stats.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Code reusability, e.g. using TweetCells for the ProfileViewController instead of creating a new class?
+2. Difference between APIManager and SessionManager?
 
 ## Video Walkthrough
 
