@@ -134,6 +134,16 @@
         ProfileViewController *profileView = [segue destinationViewController];
         profileView.user = selectedUser;
     }
+    else if([segue.identifier isEqualToString:@"replySegue"]) {
+        TweetCell *cell = (((UIButton *)sender).superview.superview);
+        NSIndexPath *indexPath = [self.tweetTableView indexPathForCell:cell];
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+        Tweet* twt = self.arrayOfTweets[indexPath.row];
+        composeController.username = twt.user.screenName;
+        composeController.idStr = twt.idStr;
+        }
     
     
 }

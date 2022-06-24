@@ -34,6 +34,8 @@
 
 - (void)showUser:(NSString *)screenName completion:(void (^)(User *, NSError *))completion;
 
+- (void)postStatusWithTextReply:(NSString *)text status_id: (NSString *) status_id completion:(void (^)(Tweet *, NSError *))completion;
+
 // Add other functions here
 
 @end

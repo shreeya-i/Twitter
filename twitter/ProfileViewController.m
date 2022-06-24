@@ -22,10 +22,11 @@
     self.profileTableView.dataSource = self;
     self.profileTableView.delegate = self;
     //self.profileTableView.rowHeight = UITableViewAutomaticDimension;
-    self.profileTableView.rowHeight = 250;
+    self.profileTableView.rowHeight = 200;
     [self fetchTweetss];
     
     self.nameLabel.text = self.user.name;
+    self.bioLabel.text = self.user.bio;
     self.usernameLabel.text = [NSString stringWithFormat:@"@%@", self.user.screenName];
     self.followersLabel.text = [NSString stringWithFormat:@"%@ Followers", self.user.followers];
     self.followingLabel.text = [NSString stringWithFormat:@"%@ Following", self.user.friends];

@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *characterCount;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
 @property (nonatomic, weak) id<ComposeViewControllerDelegate> delegate;
+@property (nonatomic, strong) NSString *idStr;
+@property (nonatomic, strong) NSString *username;
 
 @end
 

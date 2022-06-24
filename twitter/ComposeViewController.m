@@ -23,15 +23,29 @@
     
     NSString *inputTweet = self.composeTextView.text;
     
-    [[APIManager shared]postStatusWithText:inputTweet completion:^(Tweet *tweet, NSError *error) {
-        if(error){
-            NSLog(@"Error composing Tweet: %@", error.localizedDescription);
-        }
-        else{
-            [self.delegate didTweet:tweet];
-            NSLog(@"Compose Tweet Success!");
-        }
-    }];
+    if(self.username == nil) {
+        [[APIManager shared]postStatusWithText:inputTweet completion:^(Tweet *tweet, NSError *error) {
+            if(error){
+                NSLog(@"Error composing Tweet: %@", error.localizedDescription);
+            }
+            else{
+                [self.delegate didTweet:tweet];
+                NSLog(@"Compose Tweet Success!");
+            }
+        }];
+    }
+    else {
+        NSString *reply = [NSString stringWithFormat:@"@%@ %@", self.username, inputTweet];
+        [[APIManager shared]postStatusWithTextReply:reply status_id:self.idStr completion:^(Tweet *tweet, NSError * error) {
+            if(error){
+                NSLog(@"Error composing Reply: %@", error.localizedDescription);
+            }
+            else{
+                [self.delegate didTweet:tweet];
+                NSLog(@"Compose Tweet Success!");
+            }
+        }];
+    }
     
     [self dismissViewControllerAnimated:true completion:nil];
 }

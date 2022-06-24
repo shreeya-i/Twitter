@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *followers;
 @property (nonatomic, strong) NSString *friends;
 @property (nonatomic, strong) NSString *header;
+@property (nonatomic, strong) NSString *bio;
 
 //Initializer
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
