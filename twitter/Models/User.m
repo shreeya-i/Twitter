@@ -22,6 +22,7 @@
         NSString* friendsString = [NSString stringWithFormat:@"%@", dictionary[@"friends_count"]];
         self.friends = friendsString;
         self.header = dictionary[@"profile_banner_url"];
+        self.bio = dictionary[@"description"];
         
     
     // Initialize any other properties
