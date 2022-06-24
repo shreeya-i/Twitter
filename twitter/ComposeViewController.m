@@ -40,11 +40,39 @@
     [super viewDidLoad];
     
     self.composeTextView.delegate = self;
-    self.composeTextView.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.composeTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.composeTextView.layer.borderWidth = 1.0;
-    self.composeTextView.layer.cornerRadius = 8;
+    //self.composeTextView.layer.cornerRadius = 8;
     self.composeTextView.text = @"What's happening?";
     self.composeTextView.textColor = [UIColor lightGrayColor];
+    
+    self.profilePicture.layer.cornerRadius  = self.profilePicture.frame.size.width/2;
+    self.profilePicture.clipsToBounds = YES;
+    
+    UIBezierPath * imgRect = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, 120, 100)];
+    self.composeTextView.textContainer.exclusionPaths = @[imgRect];
+    
+    [[APIManager shared] getUserSettings:^(NSString *screenName, NSError *error) {
+        if(error){
+            NSLog(@"Error getting user settings: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Get user settings success!");
+            [[APIManager shared]showUser:screenName completion:^(User *user, NSError *error) {
+                if(error){
+                    NSLog(@"No show user: %@", error.localizedDescription);
+                }
+                else {
+                    NSLog(@"Yas show user: %@", error.localizedDescription);
+                    NSString *URLString = user.profilePicture;
+                    NSURL *url = [NSURL URLWithString:URLString];
+                    NSData *urlData = [NSData dataWithContentsOfURL:url];
+                    UIImage *image = [UIImage imageWithData:urlData];
+                    self.profilePicture.image = image;
+                }
+            }];
+        }
+    }];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -58,8 +86,9 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
-    int characterLimit = 140;
+    int characterLimit = 280;
     NSString *newText = [self.composeTextView.text stringByReplacingCharactersInRange:range withString:text];
+    self.characterCount.text = [NSString stringWithFormat:@"%lu / 280", (unsigned long)newText.length];
     return newText.length < characterLimit;
 }
 

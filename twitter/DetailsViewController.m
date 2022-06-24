@@ -27,7 +27,11 @@
     self.nameLabel.text = self.detailTweet.user.name;
     self.usernameLabel.text = [NSString stringWithFormat:@"@%@", self.detailTweet.user.screenName];
     self.tweetText.text = self.detailTweet.text;
-    self.dateLabel.text = self.detailTweet.createdAtString;
+    self.dateLabel.text = self.detailTweet.createdAtOriginal;
+    
+    self.retweetsLabel.text = [NSString stringWithFormat:@"%i Retweets", self.detailTweet.retweetCount];
+    
+    self.likesLabel.text = [NSString stringWithFormat:@"%i Likes", self.detailTweet.favoriteCount];
     
     self.profilePicture.layer.cornerRadius  = self.profilePicture.frame.size.width/2;
     self.profilePicture.clipsToBounds = YES;

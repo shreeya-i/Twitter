@@ -14,7 +14,7 @@
     _tweet = tweet;
     self.tweetText.text = tweet.text;
     self.nameLabel.text = tweet.user.name;
-    self.usernameLabel.text = tweet.user.screenName;
+    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", tweet.user.screenName];
     self.dateLabel.text = tweet.createdAtString;
     
     self.profilePicture.layer.cornerRadius  = self.profilePicture.frame.size.width/2;

@@ -92,6 +92,21 @@
        }];
 }
 
+- (void) loadMoreData:(NSInteger)count{
+    NSNumber *newcount = @(count);
+    [[APIManager shared] getHomeTimeline:newcount completion:^(NSArray *tweets,
+     NSError *error) {
+        if (tweets) {
+            NSLog(@"😎 😎 😎 Successfully loaded home timeline");
+            self.arrayOfTweets =(NSMutableArray *) tweets;
+            [self.tweetTableView reloadData];
+            [self.refreshControl endRefreshing];
+        } else {
+            NSLog(@"😫 😫 😫 Error getting home timeline: %@",
+             error.localizedDescription);
+        }
+}]; }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -123,13 +138,17 @@
     
 }
 
-
 - (void)didTweet:(nonnull Tweet *)tweet {
     [self.arrayOfTweets addObject: tweet];
     [self.tweetTableView reloadData];
     [self fetchTweets];
 }
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell
+ *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.row + 1 == [self.arrayOfTweets count]){
+        [self loadMoreData:[self.arrayOfTweets count] + 20];
+        //NSLog(@"%lu", [self.arrayOfTweets count] + 20);
+} }
 
 
 

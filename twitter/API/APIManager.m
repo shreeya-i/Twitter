@@ -67,6 +67,23 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     }];
 }
 
+// GET Timeline with additional data
+
+- (void)getHomeTimeline:(NSNumber *) count completion:(void(^)(NSArray *tweets, NSError *error))completion {
+    
+    NSString *urlString = @"1.1/statuses/home_timeline.json";
+    NSDictionary *parameters = @{@"count": count};
+    [self GET:urlString
+       parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+           // Success
+           NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries];
+           completion(tweets, nil);
+       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+           // There was a problem
+           completion(nil, error);
+    }];
+}
+
 // POST Request
 
 - (void)postStatusWithText:(NSString *)text completion:(void (^)(Tweet *, NSError *))completion {
@@ -142,12 +159,41 @@ static NSString * const baseURLString = @"https://api.twitter.com";
 
 - (void)getUserTimeline:(User *)user completion:(void (^)(NSArray *tweets, NSError *error))completion {
 
-    NSString *urlString = [NSString stringWithFormat:@"1.1/statuses/home_timeline.json?screen_name=%@", user.screenName];
+    NSString *urlString = [NSString stringWithFormat:@"1.1/statuses/user_timeline.json?screen_name=%@", user.screenName];
     //NSDictionary *parameters = @{@"screenName": user.screenName};
     [self GET:urlString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
            // Success
            NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries];
            completion(tweets, nil);
+       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+           // There was a problem
+           completion(nil, error);
+    }];
+}
+
+// GET User Settings
+
+- (void)getUserSettings:(void (^)(NSString *screenName, NSError *error))completion {
+
+    [self GET:@"1.1/account/settings.json" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable userSettings) {
+           // Success
+           NSString *screenName = userSettings[@"screen_name"];
+           completion(screenName, nil);
+       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+           // There was a problem
+           completion(nil, error);
+    }];
+}
+
+// Show User
+
+- (void)showUser:(NSString *)screenName completion:(void (^)(User *, NSError *))completion {
+
+    NSDictionary *parameters = @{@"screen_name": screenName};
+    [self GET:@"1.1/users/show.json" parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable userDictionary) {
+           // Success
+        User *user = [[User alloc]initWithDictionary:userDictionary];
+        completion(user, nil);
        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
            // There was a problem
            completion(nil, error);
